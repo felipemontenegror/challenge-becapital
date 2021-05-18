@@ -6,7 +6,7 @@ const ProductSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    Company: {
+    company: {
         type: String,
         required: true
     },
@@ -21,7 +21,8 @@ const ProductSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     }
-}, { autoCreate : true })
+},
+)
 
 
 module.exports = mongoose.model('product', ProductSchema);

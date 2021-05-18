@@ -14,15 +14,15 @@ router.post('/', [
   ], async (req, res, next) => {
 
     try {
-      let { serial, fabricante, company, description, price } = req.body
+      let { serial, company, description, price } = req.body
   
       const errors = validationResult(req)
   
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
       } else {
-        let product = new Product({ serial, fabricante, company, description, price })
-  
+        let product = new Product({ serial, company, description, price })
+        
         await product.save()
   
         if (product.id) {
