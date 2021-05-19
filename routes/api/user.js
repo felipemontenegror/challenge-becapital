@@ -5,7 +5,7 @@ const router = express.Router()
 const MSGS = require('../../messages')
 
 // Route    GET /user
-// @access   Private
+// Access   Public
 router.get('/', async (req, res, next) => {
     try {
       const user = await User.find({})
@@ -16,7 +16,43 @@ router.get('/', async (req, res, next) => {
     }
   })
 
+// Route    GET /user
+// Access   Public
+  router.get('/:userId', [], async(req, res, next)=> {  
+    try{
+      const id = req.params.userId
+      const user = await User.findOne({_id : id}) 
+      if(user){
+        res.json(user)
+      }else{
+        res.status(404).send({"error" : MSGS.USER404})
+      }
+    }catch(err){
+      console.error(err.message)
+      res.status(500).send({"error" : MSGS.GENERIC_ERROR})
+    }
+  })
 
+  
+// Route    DELETE /user
+// Access   Public
+  router.delete('/:userId', async(req, res, next)=> {
+    try{
+      const id = req.params.userId   
+      const user = await User.findOneAndDelete({_id : id}) 
+      if (user){
+        res.json(user)
+      }else{
+        res.status(404).send({"error" : "user not exist"})
+      }
+    }catch(err){
+      console.error(err.message)
+      res.status(500).send({"error" : "Server Error"})
+    }
+  })
+
+// Route    POST /user
+// Access   Public
   router.post('/',[
     check('name').not().isEmpty(),
     check('email', 'email is not valid').isEmail(),
@@ -34,7 +70,7 @@ router.get('/', async (req, res, next) => {
         if (user.id){
           res.json(user);
         }
-      };
+      }
       
     }catch(err){
       console.error(err.message)
@@ -42,6 +78,4 @@ router.get('/', async (req, res, next) => {
     }
   })
   
-
-
   module.exports = router
