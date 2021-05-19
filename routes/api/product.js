@@ -17,6 +17,24 @@ router.get('/', async (req, res) => {
     }
   })
 
+
+//Route GET || GET:Id
+// Acess Public
+router.get('/:id',[], async (req, res) => {
+    try {
+      const id = req.params.id
+      const product = await Product.findOne({_id : id})
+      if(product){
+        res.json(product)
+      } else {
+          res.status(404).send({ "error" : MSGS.PRODUCT404})
+      }
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).send({ "error" : MSGS.GENERIC_ERROR })
+    }
+  })
+
 //Route Post || Create Product
 // Acess Public
 router.post('/', [
@@ -51,14 +69,14 @@ router.post('/', [
 
 //Route Delete || DELETE Product
 // Acess Public
-  router.delete('/:serial', [], async (req, res, next) => {
+  router.delete('/:id', [], async (req, res, next) => {
     try {
-      let serial = serial.params["serial"]
-      const product = await Product.findOneAndDelete({ serial: serial })
+      const id = req.params.id
+      const product = await Product.findOneAndDelete({_id: id })
       if (product) {
         res.send(product)
       } else {
-        res.status(404).send({ "error": PRODUCT404 })
+        res.status(404).send({ "error": MSGS.PRODUCT404 })
       }
     } catch (err) {
       console.error(err.message)
