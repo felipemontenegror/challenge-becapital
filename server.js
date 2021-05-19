@@ -13,10 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 // MongoDB 
 connectDB()
 
+//rotas de endpoint
+app.use('/product', require('./routes/api/product'))
+app.use('/user', require('./routes/api/user'))
 
 app.get('/', (req, res) => res.send('Server Hello'))
-
-app.use('/product', require('./routes/api/product'))
 
 app.listen(PORT, () => { 
     console.log(`port ${PORT}`)})
