@@ -35,6 +35,7 @@ router.get('/:id',[], async (req, res) => {
     }
   })
 
+  
 //Route Post || Create Product
 // Acess Public
 router.post('/', [
@@ -65,6 +66,25 @@ router.post('/', [
       res.status(500).send({ "error": MSGS.GENERIC_ERROR })
     }
   })
+
+
+//Route Patch || PATCH:id Product
+// Acess Public
+  router.patch('/:id', async (req, res, next) => {  
+    try {
+      const id = req.params.id
+      const update = { $set: req.body } // operador $set de update de valor
+      const product = await Product.findByIdAndUpdate(id, update, { new: true })
+      if (product) {
+        res.send(product)
+      } else {
+        res.status(404).send({ error: "Product doesn't exist" })
+      }
+    }catch (err) {
+      console.error(err.message)
+      res.status(500).send({ "error": "Server Error" })
+    }
+  });
 
 
 //Route Delete || DELETE Product

@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator')
 const router = express.Router()
 const MSGS = require('../../messages')
 
-// Route    GET /user
+// Route  ||  GET /user
 // Access   Public
 router.get('/', async (req, res, next) => {
     try {
@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
     }
   })
 
-// Route    GET /user
+// Route  ||  GET /user
 // Access   Public
   router.get('/:userId', [], async(req, res, next)=> {  
     try{
@@ -34,7 +34,7 @@ router.get('/', async (req, res, next) => {
   })
 
   
-// Route    DELETE /user
+// Route  ||  DELETE /user
 // Access   Public
   router.delete('/:userId', async(req, res, next)=> {
     try{
@@ -43,15 +43,15 @@ router.get('/', async (req, res, next) => {
       if (user){
         res.json(user)
       }else{
-        res.status(404).send({"error" : "user not exist"})
+        res.status(404).send({"error" : MSGS.USER404})
       }
     }catch(err){
       console.error(err.message)
-      res.status(500).send({"error" : "Server Error"})
+      res.status(500).send({"error" : MSGS.GENERIC_ERROR})
     }
   })
 
-// Route    POST /user
+// Route  ||  POST /user
 // Access   Public
   router.post('/',[
     check('name').not().isEmpty(),
